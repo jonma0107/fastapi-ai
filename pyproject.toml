@@ -54,6 +54,7 @@ uvicorn = { extras = ["standard"], version = "^0.29.0" }
 ollama = "^0.5.1"
 httpx = "^0.28.1"
 python-multipart = "^0.0.20"
+streamlit = "^1.45.1"
 
 [tool.poetry.group.dev.dependencies]
 pre-commit = "^4.2.0"
