@@ -110,4 +110,12 @@ Además de la API, este proyecto incluye una interfaz web construida con **Strea
 3. **Usa la interfaz para:**
    - Escribir una pregunta.
    - (Opcional) Subir una imagen.
-   - Ver la respuesta, razonamiento y tema generados por el modelo. 
+   - Ver la respuesta, razonamiento y tema generados por el modelo.
+     
+![image](https://github.com/user-attachments/assets/1dcee6ad-c024-4dbb-84cb-8f5f2fbaeaad)
+
+El modelo que se está implementando es `gemma3:latest`. Gemma es una familia ligera de modelos de Google basada en la tecnología Gemini. Los modelos Gemma 3 son multimodales (procesan texto e imágenes) y cuentan con una ventana de contexto de 128K compatible con más de 140 idiomas. Disponibles en tamaños de parámetro de 1B, 4B, 12B y 27B, son excelentes para tareas como responder preguntas, resumir y razonar, y su diseño compacto permite su implementación en dispositivos con recursos limitados.
+
+![image](https://github.com/user-attachments/assets/474da168-5808-48a0-969f-f9e464bda47e)
+
+
