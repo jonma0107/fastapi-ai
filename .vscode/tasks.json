@@ -1,0 +1,40 @@
+{
+
+    "version": "2.0.0",
+    "tasks": [
+            
+        {
+          "label": "up",
+          "type": "shell",
+          "command": "docker compose up -d",
+          "problemMatcher": []
+        },
+        {
+          "label": "down",
+          "type": "shell",
+          "command": "docker compose down",
+          "problemMatcher": []
+        },
+        {
+          "label": "build",
+          "type": "shell",
+          "command": "docker compose build --no-cache",
+          "problemMatcher": []
+        },
+        {
+          "label": "pre-commit-run-all-files",
+          "type": "shell",
+          "command": "docker exec -it $(docker ps --format \"{{.Names}}\" | grep app) pre-commit run --all-files",
+          "problemMatcher": []
+        },
+        {
+          "label": "bash",
+          "type": "shell",
+          "command": "docker compose exec web bash",
+          "problemMatcher": []
+        }
+            
+
+             
+    ]
+  }
