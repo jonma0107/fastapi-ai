@@ -24,7 +24,7 @@
         {
           "label": "pre-commit-run-all-files",
           "type": "shell",
-          "command": "docker exec -it $(docker ps --format \"{{.Names}}\" | grep app) pre-commit run --all-files",
+          "command": "pre-commit run --all-files",
           "problemMatcher": []
         },
         {

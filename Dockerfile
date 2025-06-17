@@ -1,7 +1,7 @@
 FROM python:3.13.2-slim-bullseye
 
 # Instalar dependencias del sistema
-RUN apt-get update && apt-get install -y curl build-essential
+RUN apt-get update && apt-get install -y git curl build-essential
 
 # Instalar Poetry
 ENV POETRY_VERSION=1.8.2
