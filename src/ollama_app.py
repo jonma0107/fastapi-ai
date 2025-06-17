@@ -71,19 +71,30 @@ app = FastAPI()
 # Endpoint principal: recibe una pregunta y una imagen, consulta al modelo LLM y retorna la respuesta estructurada
 @app.post("/api/question", response_model=QAAnalytics)
 async def llm_qa_response(
-  question: str = Form(...), file: UploadFile = File(...)
+  question: str = Form(...), file: UploadFile = File(None)
 ):
-  """Handles the question and image file, returns the LLM response."""
+  """Handles the question and (optionally) image file, returns the LLM response."""
   try:
-    # Leer el archivo y convertirlo a base64
-    image_bytes = await file.read()
-    encode_image = base64.b64encode(image_bytes).decode("utf-8")
+    if file is not None:
+      image_bytes = await file.read()
+      encode_image = base64.b64encode(image_bytes).decode("utf-8")
+      images = [encode_image]
+    else:
+      images = []
 
-    # Consultar al modelo LLM de Ollama
-    response = ollama_llm_response(question=question, encode_image=encode_image)
+    response = chat(
+      model="gemma3:latest",
+      format=QAAnalytics.model_json_schema(),
+      messages=[
+        {
+          "role": "system",
+          "content": "Eres un asistente útil. Responde SIEMPRE en formato JSON con los campos: question, answer, thoughts, topic.",
+        },
+        {"role": "user", "content": question, "images": images},
+      ],
+    )
     print("DEBUG: response.message.content =", response.message.content)
     try:
-      # Intentar parsear la respuesta como JSON y validarla con el modelo QAAnalytics
       data = json.loads(response.message.content)
       qa_instance = QAAnalytics(**data)
     except json.JSONDecodeError as e:
@@ -92,9 +103,7 @@ async def llm_qa_response(
       )
       raise
 
-    # Registrar la respuesta en logs
     log_response(logger=logger, response=qa_instance)
-
     return qa_instance
   except Exception as e:
     logger.error(f"Error processing question: {e}")
