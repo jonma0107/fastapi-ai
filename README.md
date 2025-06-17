@@ -1,5 +1,17 @@
 # API IA - FastAPI + Ollama
 
+> **Requisito previo:**
+> 
+> 1. Instala [Ollama](https://ollama.com/download) en tu sistema siguiendo la guía oficial para tu plataforma.
+> 2. Descarga el modelo necesario ejecutando:
+>    ```bash
+>    ollama pull gemma3:latest
+>    ```
+> 3. Inicia el servidor de Ollama (si no está corriendo):
+>    ```bash
+>    ollama serve
+>    ```
+
 ## 🚀 Inicio rápido con Docker
 
 Este proyecto utiliza **Docker** para facilitar la ejecución y despliegue de una API basada en FastAPI que interactúa con modelos LLM de **Ollama**.
@@ -67,3 +79,35 @@ El backend procesa la imagen (si se envía), consulta un modelo LLM de Ollama y 
 
 - Es necesario que el servidor Ollama esté corriendo y accesible desde el contenedor Docker.
 - El endpoint permite preguntas de solo texto o preguntas con imagen; la imagen es opcional. 
+
+---
+
+## 🖥️ Interfaz web con Streamlit
+
+Además de la API, este proyecto incluye una interfaz web construida con **Streamlit** para facilitar la interacción con el modelo LLM de Ollama de forma visual.
+
+### ¿Por qué un servicio Streamlit en Docker Compose?
+
+- El servicio `streamlit` en `docker-compose.yml` permite levantar la interfaz web en el puerto **8501** usando el mismo entorno y dependencias que la API.
+- Así, puedes desarrollar y probar tanto la API como la interfaz web de manera integrada y sin conflictos de versiones.
+
+### ¿Por qué instalar Streamlit con Poetry?
+
+- Se usa Poetry para gestionar todas las dependencias del proyecto, asegurando que tanto la API como la interfaz web funcionen en el mismo entorno reproducible.
+- Si trabajas fuera de Docker, puedes instalar Streamlit ejecutando:
+  ```bash
+  poetry add streamlit
+  ```
+
+### Cómo usar la interfaz Streamlit
+
+1. **Levanta los servicios con Docker Compose:**
+   ```bash
+   docker compose up --build
+   ```
+2. **Accede a la interfaz web en tu navegador:**  
+   [http://localhost:8501](http://localhost:8501)
+3. **Usa la interfaz para:**
+   - Escribir una pregunta.
+   - (Opcional) Subir una imagen.
+   - Ver la respuesta, razonamiento y tema generados por el modelo. 
