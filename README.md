@@ -21,7 +21,11 @@ Este proyecto utiliza **Docker** para facilitar la ejecución y despliegue de un
 
 ## 🧠 ¿Qué hace la API? (`src/ollama_app.py`)
 
-Esta API expone un endpoint inteligente que permite enviar una **pregunta** junto con una **imagen**. El backend procesa la imagen, consulta un modelo LLM de Ollama y devuelve una respuesta enriquecida y estructurada.
+Esta API expone un endpoint inteligente que permite enviar una **pregunta** de dos formas:
+- Solo texto (por ejemplo: "¿Cuál es la capital de Francia?")
+- Texto acompañado de una **imagen** (por ejemplo: "¿Qué contiene esta imagen?" + archivo)
+
+El backend procesa la imagen (si se envía), consulta un modelo LLM de Ollama y devuelve una respuesta enriquecida y estructurada.
 
 ### **Lógica principal:**
 
@@ -32,7 +36,7 @@ Esta API expone un endpoint inteligente que permite enviar una **pregunta** junt
   - El tema identificado (`topic`)
 
 - **Procesamiento de la imagen:**  
-  La imagen enviada se convierte automáticamente a base64 para ser entendida por el modelo LLM.
+  Si se envía una imagen, se convierte automáticamente a base64 para ser entendida por el modelo LLM. Si no se envía imagen, el modelo responde solo en base a la pregunta de texto.
 
 - **Interacción con Ollama:**  
   Se consulta un modelo LLM de Ollama (por defecto, `gemma3:latest`), pidiéndole que responda **siempre en formato JSON** con los campos esperados.
@@ -43,8 +47,8 @@ Esta API expone un endpoint inteligente que permite enviar una **pregunta** junt
 - **Endpoint principal:**  
   - **POST `/api/question`**  
     Recibe:
-    - `question`: Texto de la pregunta (campo de formulario)
-    - `file`: Imagen a analizar (archivo)
+    - `question`: Texto de la pregunta (campo de formulario, obligatorio)
+    - `file`: Imagen a analizar (archivo, opcional)
     Devuelve:
     - Respuesta estructurada con la respuesta, razonamiento y tema.
 
@@ -54,7 +58,7 @@ Esta API expone un endpoint inteligente que permite enviar una **pregunta** junt
 
 1. Ve a [http://localhost:8000/docs](http://localhost:8000/docs)
 2. Usa el endpoint `/api/question`
-3. Escribe tu pregunta y sube una imagen.
+3. Escribe tu pregunta y, si lo deseas, sube una imagen.
 4. Obtendrás una respuesta enriquecida y explicada por el modelo.
 
 ---
@@ -62,4 +66,4 @@ Esta API expone un endpoint inteligente que permite enviar una **pregunta** junt
 ## 📝 Notas
 
 - Es necesario que el servidor Ollama esté corriendo y accesible desde el contenedor Docker.
-- El endpoint espera siempre una imagen y una pregunta; ambos son obligatorios. 
+- El endpoint permite preguntas de solo texto o preguntas con imagen; la imagen es opcional. 
